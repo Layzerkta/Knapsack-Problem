@@ -45,7 +45,7 @@ The implementation consists of:
 
 ## Results and Analysis
 
-![Comparative Table](Comparative_Table.png)
+![Comparative Table](comparative_table.png)
 
 The comparative table provides a detailed breakdown of:
 - Packages selected for the shipment.
