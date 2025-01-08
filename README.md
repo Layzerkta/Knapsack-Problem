@@ -17,7 +17,7 @@ This is a classic **Knapsack Problem**, which can be solved using techniques suc
 ### 1. Understanding the Problem
 
 The problem can be modeled mathematically as follows:
-- Let the weight of the \(i^{th}\) package be \(w_i\) and its value \(v_i\).
+- Let the weight of the \(i\)th package be \(w_i\) and its value \(v_i\).
 - Define a binary decision variable \(x_i\):
   - \(x_i = 1\): if package \(i\) is selected.
   - \(x_i = 0\): otherwise.
@@ -40,8 +40,7 @@ x_i \in \{0, 1\}, \forall i = 1, 2, \dots, 500
 Dynamic programming can be used to solve the problem exactly, but it may be computationally expensive given the large number of packages.
 
 #### b. Greedy Algorithm (Heuristic)
-A heuristic approach involves sorting packages by their value-to-weight ratio (
-\( \frac{v_i}{w_i} \)) and selecting packages in descending order until the weight limit is reached.
+A heuristic approach involves sorting packages by their value-to-weight ratio \(( \frac{v_i}{w_i} )\) and selecting packages in descending order until the weight limit is reached.
 
 #### c. Linear Programming Relaxation
 For a faster approximate solution, relax the binary constraint on \(x_i\) to allow fractional values. Solve using linear programming and round the results.
@@ -59,7 +58,7 @@ The implementation consists of:
 
 ## Results and Analysis
 
-![Comparative Table](table.png)
+![Comparative Table](comparative_table.png)
 
 The comparative table provides a detailed breakdown of:
 - Packages selected for the shipment.
