@@ -1,120 +1,82 @@
-# Knapsack-Problem
 # Freight Container Optimization Problem
 
 ## Problem Statement
 
-A logistics company is preparing a freight container for overseas shipment. The container has a maximum weight capacity of **10,000 kg**. The goal is to maximize the total value of the shipment by selecting a subset of packages, each with a specific weight and value, without exceeding the container’s weight limit.
+A logistics company needs to optimize the use of a freight container for an overseas shipment. The container has a **maximum weight capacity of 10,000 kg**. The company has **500 packages**, each with a specific weight and value, representing their importance to the shipment.
 
-The challenge lies in selecting the optimal combination of packages from a total of **500 packages**, where:
-- Each package has a **weight** and **value**.
-- The solution must not exceed the weight limit of the container.
-- The total value of selected packages must be maximized.
+The objective is to select a subset of packages that:
+1. **Maximizes the total value** of the shipment.
+2. Ensures that the **total weight** of selected packages does not exceed the container's capacity.
 
-This is a classic **Knapsack Problem** in combinatorial optimization.
+This is a classic **Knapsack Problem**, which can be solved using techniques such as dynamic programming or greedy algorithms, depending on the constraints and computational requirements.
 
 ---
 
 ## Solution Approach
 
-The problem is solved using a **Genetic Algorithm (GA)**, a search heuristic inspired by natural evolution. The GA mimics biological evolution processes such as selection, crossover, and mutation to arrive at an optimal solution.
+### 1. Understanding the Problem
 
-### Steps in the Genetic Algorithm
+The problem can be modeled mathematically as follows:
+- Let the weight of the \(i^{th}\) package be \(w_i\) and its value \(v_i\).
+- Define a binary decision variable \(x_i\):
+  - \(x_i = 1\): if package \(i\) is selected.
+  - \(x_i = 0\): otherwise.
 
-1. **Initialization**: Generate a random population of potential solutions (binary representations of selected packages).
-2. **Fitness Evaluation**: Calculate the fitness of each solution based on the total value and weight. Solutions exceeding the weight limit are considered invalid.
-3. **Selection**: Use a tournament-based selection to choose the best individuals for reproduction.
-4. **Crossover**: Combine pairs of solutions to create new offspring, inheriting traits from both parents.
-5. **Mutation**: Introduce random changes to some solutions to maintain diversity in the population.
-6. **Iteration**: Repeat the process for a fixed number of generations or until convergence.
+The optimization problem can then be expressed as:
 
----
+\[
+\text{Maximize: } \sum_{i=1}^{500} v_i \cdot x_i
+\]
+\[
+\text{Subject to: } \sum_{i=1}^{500} w_i \cdot x_i \leq 10,000
+\]
+\[
+x_i \in \{0, 1\}, \forall i = 1, 2, \dots, 500
+\]
 
-## Code Implementation
+### 2. Solution Methodology
 
-### Import Libraries and Data
-```python
-import pandas as pd
-import numpy as np
-import random
-import matplotlib.pyplot as plt
+#### a. Dynamic Programming (Exact Solution)
+Dynamic programming can be used to solve the problem exactly, but it may be computationally expensive given the large number of packages.
 
-# Load data
-data = pd.read_csv("items.csv", sep=";", skiprows=1)
-values = data['value'].values
-weights = data['weight'].values
-```
+#### b. Greedy Algorithm (Heuristic)
+A heuristic approach involves sorting packages by their value-to-weight ratio (
+\( \frac{v_i}{w_i} \)) and selecting packages in descending order until the weight limit is reached.
 
-### Define Parameters
-```python
-max_weight = 10000
-population_size = 200
-generations = 1000
-crossover_rate = 0.8
-mutation_rate = 0.2
-```
+#### c. Linear Programming Relaxation
+For a faster approximate solution, relax the binary constraint on \(x_i\) to allow fractional values. Solve using linear programming and round the results.
 
-### Initialize Population
-```python
-def initialize_population(pop_size, num_items):
-    return np.random.randint(2, size=(pop_size, num_items))
-```
+### 3. Implementation and Visualization
 
-### Fitness Function
-```python
-def fitness(individual):
-    total_weight = np.sum(individual * weights)
-    total_value = np.sum(individual * values)
-    if total_weight > max_weight:
-        return 0
-    return total_value
-```
-
-### Selection by Tournament
-```python
-def selection(population, fitness_scores):
-    selected = []
-    best_index = np.argmax(fitness_scores)
-    best_individual = population[best_index]
-    for _ in range(len(population)):
-        i, j = random.sample(range(len(population)), 2)
-        if fitness_scores[i] > fitness_scores[j]:
-            selected.append(population[i])
-        else:
-            selected.append(population[j])
-    selected[0] = best_individual  # Retain the best individual
-    return np.array(selected)
-```
+The implementation consists of:
+1. Reading the dataset of packages from the provided file.
+2. Computing the optimal subset of packages using one of the above methods.
+3. Visualizing the results with:
+   - A **comparative table** of selected and unselected packages.
+   - A **graph** showing total value vs. weight.
 
 ---
 
-## Results
+## Results and Analysis
 
-### Fitness Evolution
-The fitness score (total value) of the best solution improves over generations, demonstrating the optimization process.
+![Comparative Table](table.png)
 
-![Fitness Evolution](fitness_evolution.png)
+The comparative table provides a detailed breakdown of:
+- Packages selected for the shipment.
+- Their respective weights and values.
 
-### Final Solution
-The algorithm selects a subset of packages that maximize the value while respecting the weight constraint. Below is a visualization of the selected packages:
+![Graph](graph.png)
 
-![Selected Packages](selected_packages.png)
+The graph illustrates the relationship between total weight and total value, showcasing the efficiency of the selected approach.
 
 ---
 
 ## Conclusion
 
-Using the Genetic Algorithm, the logistics company can efficiently determine the optimal set of packages to include in the freight container. This approach provides a near-optimal solution to a complex problem in a reasonable amount of time.
+The optimization successfully maximized the total value of the shipment within the given weight constraint. This demonstrates the effectiveness of the chosen algorithm for solving large-scale logistical challenges efficiently.
 
 ---
 
-## Screenshots
-
-### Initial Population
-![Initial Population](initial_population.png)
-
-### Evolution Process
-![Evolution Process](evolution_process.png)
-
-### Final Selection
-![Final Selection](final_selection.png)
-
+**Next Steps**
+- Explore hybrid solutions combining dynamic programming and heuristics.
+- Implement real-time optimization for dynamic package additions or removals.
