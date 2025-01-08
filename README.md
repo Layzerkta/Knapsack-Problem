@@ -45,13 +45,13 @@ The implementation consists of:
 
 ## Results and Analysis
 
-![Comparative Table](comparative_table.png)
+![Comparative Table](Comparative_Table.png)
 
 The comparative table provides a detailed breakdown of:
 - Packages selected for the shipment.
 - Their respective weights and values.
 
-![Graph](graph.png)
+![Graph](Graph.PNG)
 
 The graph illustrates the relationship between total weight and total value, showcasing the efficiency of the selected approach.
 
